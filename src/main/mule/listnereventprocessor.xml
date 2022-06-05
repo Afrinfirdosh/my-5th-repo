@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e1160c66-24d5-4aad-aa2a-f3b80e02450a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="loggereventprocessor" doc:id="8d405196-f59b-4df6-a099-b3dd0bfc8fe7" >
+		<http:listener doc:name="Listener" doc:id="214bb1a2-4b33-4ed7-9c86-c7c0fc81e266" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="5f881f67-8a3f-4184-b271-de2e1a7bbc7e" message="start flow"/>
+		<ee:transform doc:name="Transform Message" doc:id="f0a1fee6-5471-4700-b3ad-bbc00ae6481d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+"it is used to see the payload result on console and also used for logical error testing by adding break point in it"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="9f563ec1-49f8-4507-a542-3bafca249382" message="end flow"/>
+	</flow>
+</mule>
